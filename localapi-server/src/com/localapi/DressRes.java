@@ -142,15 +142,15 @@ final class DressRes {
         JSONObject cdn = new JSONObject();
         cdn.put("base", true);
         cdn.put("cdnId", "local");
-        cdn.put("cdnUrl", "http://127.0.0.1:3000");
+        cdn.put("cdnUrl", "http://127.0.0.1:18080");
         cdn.put("ratio", 1);
-        cdn.put("url", "http://127.0.0.1:3000" + packPath());
+        cdn.put("url", "http://127.0.0.1:18080" + packPath());
         cdns.put(cdn);
         out.put("cdns", cdns);
         out.put("fileCount", fileCount);
         out.put("fileSize", bytes);
         out.put("hash", havePack ? PACK_MD5 : "");
-        out.put("url", havePack ? "http://127.0.0.1:3000" + packPath() : "");
+        out.put("url", havePack ? "http://127.0.0.1:18080" + packPath() : "");
         out.put("version", havePack ? DRESS_VERSION
                 : Math.max(1, (int) clientVersion));
         return out;

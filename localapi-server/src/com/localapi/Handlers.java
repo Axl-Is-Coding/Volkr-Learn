@@ -14,7 +14,7 @@ final class Handlers {
     private static final String FAIL = "failed";
 
     /** This server's loopback base URL — the dispUrl/gaddr bridge target. */
-    static final String LOCAL_BASE_URL = "http://127.0.0.1:3000";
+    static final String LOCAL_BASE_URL = "http://127.0.0.1:18080";
 
     private Handlers() {}
 
@@ -1039,7 +1039,7 @@ final class Handlers {
         // Without a running server, the legacy loopback keeps the map-download
         // phase behavior unchanged.
         String gameAddr = GameServerManager.gameAddr();
-        out.put("gaddr", gameAddr != null ? gameAddr : "127.0.0.1:3000");
+        out.put("gaddr", gameAddr != null ? gameAddr : "127.0.0.1:18080");
         out.put("dispUrl", LOCAL_BASE_URL);
         out.put("croomid", croomId);
         out.put("gameType", engineType);
@@ -1054,8 +1054,10 @@ final class Handlers {
         // there, verifies the map's own checksums.md5, then calls
         // JNI onMapDownloadSuccess -> resetGameDispatch. Key names MUST stay
         // in the client's Gson form (gaddr/croomid/mid/mname/downurl).
-        JSONObject mapEntry = engineType.matches("g[0-9]+")
-                ? MapAssets.entryForGame(engineType) : null;
+        JSONObject mapEntry = MapAssets.entryForGame(engineType);
+        if (mapEntry == null && gameType != null) {
+            mapEntry = MapAssets.entryForGame(gameType);
+        }
         String downurl = mapEntry == null ? "" : MapAssets.durlFor(mapEntry);
         out.put("downurl", downurl);
         L.i("MAP_DISPATCH gameType=" + gameType + " engineType=" + engineType
@@ -1107,14 +1109,7 @@ final class Handlers {
         local.put("url", LOCAL_BASE_URL);
         cdns.put(local);
         out.put("cdns", cdns);
-        // resolve the game's engine-form script id ("1008" -> g1008; an
-        // unknown name resolves via the catalog's scriptType)
         String script = gameType == null ? "" : gameType.trim();
-        if (script.matches("[0-9]+")) script = "g" + script;
-        if (!script.matches("g[0-9]+")) {
-            JSONObject game = GameCatalog.byId(store, script);
-            if (game != null) script = game.optString("scriptType", script);
-        }
         JSONObject entry = script.isEmpty() ? null : MapAssets.entryForGame(script);
         if (entry != null) {
             int v = entry.optInt("version", (int) clientV);
@@ -1695,7 +1690,7 @@ final class Handlers {
         JSONObject out = new JSONObject();
         out.put("dispUrl", LOCAL_BASE_URL);
         // host:port — the client split(":") partyService for the gRPC client
-        out.put("partyService", "127.0.0.1:3000");
+        out.put("partyService", "127.0.0.1:18080");
         out.put("partyQuerierService", LOCAL_BASE_URL);
         out.put("region", 0);
         out.put("country", "");

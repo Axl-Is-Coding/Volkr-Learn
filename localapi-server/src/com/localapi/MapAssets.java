@@ -76,6 +76,7 @@ final class MapAssets {
     private static final Object LOCK = new Object();
     private static volatile boolean indexed;
     private static boolean packThreadStarted;
+    private static volatile StateStore sStore;
 
     /** scriptType (g####) -> map bundle entry (zipName/version/mapName...). */
     private static volatile Map<String, JSONObject> byGame =
@@ -90,15 +91,70 @@ final class MapAssets {
 
     /** Boot hook: load a persisted index if present, then ensure the pack. */
     static void ensure(StateStore store) {
+        sStore = store;
         loadIndex(store);
         startPackThread(store);
     }
 
     /** scriptType -> map bundle entry, or null (also accepts "1008" form). */
     static JSONObject entryForGame(String scriptType) {
+        if (!indexed && sStore != null) {
+            synchronized (LOCK) {
+                if (!indexed) {
+                    loadIndex(sStore);
+                }
+            }
+        }
         Map<String, JSONObject> g = byGame;
-        JSONObject entry = (g == null || scriptType == null)
-                ? null : g.get(scriptType);
+        if (g == null || scriptType == null || scriptType.trim().isEmpty()) {
+            return null;
+        }
+        String key = scriptType.trim();
+        JSONObject entry = g.get(key);
+
+        if (entry == null && !key.startsWith("g") && key.matches("[0-9]+")) {
+            key = "g" + key;
+            entry = g.get(key);
+        }
+
+        if (entry == null) {
+            String mapped = resolveHallScript(key);
+            if (mapped != null && !mapped.equals(key)) {
+                entry = g.get(mapped);
+            }
+        }
+
+        if (entry == null && sStore != null) {
+            try {
+                JSONObject game = GameCatalog.byId(sStore, scriptType);
+                if (game == null && key.startsWith("g")) {
+                    game = GameCatalog.byId(sStore, key.substring(1));
+                }
+                if (game != null) {
+                    String st = game.optString("scriptType", "");
+                    if (!st.isEmpty() && !st.equals(key)) {
+                        entry = g.get(st);
+                        if (entry == null) {
+                            String m = resolveHallScript(st);
+                            if (m != null) entry = g.get(m);
+                        }
+                    }
+                    if (entry == null) {
+                        org.json.JSONArray realList = game.optJSONArray("realPlayGameList");
+                        if (realList != null && realList.length() > 0) {
+                            JSONObject sub = realList.optJSONObject(0);
+                            if (sub != null) {
+                                String subScript = sub.optString("scriptType", "");
+                                if (!subScript.isEmpty()) {
+                                    entry = g.get(subScript);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Throwable ignored) {}
+        }
+
         if (entry == null) {
             L.e("MAP_LOOKUP_MISS scriptType=" + scriptType
                     + " indexed=" + indexed
@@ -112,9 +168,22 @@ final class MapAssets {
         return entry;
     }
 
+    private static String resolveHallScript(String key) {
+        if ("g1046".equals(key) || "1046".equals(key) || "Bedwars".equalsIgnoreCase(key)) {
+            return "g1008";
+        }
+        if ("g1042".equals(key) || "1042".equals(key)) {
+            return "g1043";
+        }
+        if ("g1058".equals(key) || "1058".equals(key)) {
+            return "g1054";
+        }
+        return null;
+    }
+
     /** The download URL the engine fetches the map bundle from (loopback). */
     static String durlFor(JSONObject entry) {
-        return "http://127.0.0.1:3000/sandbox/games/maps/"
+        return "http://127.0.0.1:18080/sandbox/games/maps/"
                 + entry.optString("zipName");
     }
 
@@ -231,14 +300,15 @@ final class MapAssets {
     }
 
     private static void ensurePack(StateStore store) throws Exception {
+        if (indexed && !byGame.isEmpty()) return;
+        File dir = mapsDir(store);
+        File pack = packFile(store);
+        dir.mkdirs();
+        if (!pack.exists() || pack.length() < PACK_MIN_BYTES) {
+            downloadPack(pack);
+        }
         synchronized (LOCK) {
             if (indexed && !byGame.isEmpty()) return;
-            File dir = mapsDir(store);
-            File pack = packFile(store);
-            dir.mkdirs();
-            if (!pack.exists() || pack.length() < PACK_MIN_BYTES) {
-                downloadPack(pack);
-            }
             verifyPack(pack);
             extractPack(store, pack);
             buildIndex(store);
@@ -456,35 +526,45 @@ final class MapAssets {
         synchronized (LOCK) {
             if (indexed) return;
             File f = indexFile(store);
-            if (!f.exists() || f.length() == 0) return;
-            try {
-                JSONObject idx = new JSONObject(slurp(f));
-                Map<String, JSONObject> g = new HashMap<String, JSONObject>();
-                JSONObject games = idx.optJSONObject("games");
-                if (games != null) {
-                    java.util.Iterator<String> it = games.keys();
-                    while (it.hasNext()) {
-                        String k = it.next();
-                        g.put(k, games.optJSONObject(k));
+            if (f.exists() && f.length() > 0) {
+                try {
+                    JSONObject idx = new JSONObject(slurp(f));
+                    Map<String, JSONObject> g = new HashMap<String, JSONObject>();
+                    JSONObject games = idx.optJSONObject("games");
+                    if (games != null) {
+                        java.util.Iterator<String> it = games.keys();
+                        while (it.hasNext()) {
+                            String k = it.next();
+                            g.put(k, games.optJSONObject(k));
+                        }
                     }
-                }
-                Map<String, File> k = new HashMap<String, File>();
-                JSONArray files = idx.optJSONArray("files");
-                if (files != null) {
-                    for (int i = 0; i < files.length(); i++) {
-                        String key = files.optString(i, "");
-                        if (key.isEmpty()) continue;
-                        File file = new File(mapsDir(store), key);
-                        if (file.exists()) k.put(key, file);
+                    Map<String, File> k = new HashMap<String, File>();
+                    JSONArray files = idx.optJSONArray("files");
+                    if (files != null) {
+                        for (int i = 0; i < files.length(); i++) {
+                            String key = files.optString(i, "");
+                            if (key.isEmpty()) continue;
+                            File file = new File(mapsDir(store), key);
+                            if (file.exists()) k.put(key, file);
+                        }
                     }
+                    byGame = g;
+                    byKey = k;
+                    indexed = true;
+                    L.i("maps: index loaded (" + g.size() + " games, "
+                            + k.size() + " files)");
+                    return;
+                } catch (Throwable t) {
+                    L.e("maps: index parse failed: " + t);
                 }
-                byGame = g;
-                byKey = k;
-                indexed = true;
-                L.i("maps: index loaded (" + g.size() + " games, "
-                        + k.size() + " files)");
-            } catch (Throwable t) {
-                L.e("maps: index parse failed: " + t);
+            }
+            File manifest = new File(mapsDir(store), "_manifest/manifest.csv");
+            if (manifest.exists()) {
+                try {
+                    buildIndex(store);
+                } catch (Throwable t) {
+                    L.e("maps: buildIndex failed: " + t);
+                }
             }
         }
     }

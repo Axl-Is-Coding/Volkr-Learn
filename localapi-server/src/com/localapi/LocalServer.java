@@ -8,7 +8,7 @@ import java.net.Socket;
 /**
  * Entry point for the embedded loopback API server.
  * Called once from App.onCreate (smali hook) before any activity can fire a request.
- * The server binds 127.0.0.1:3000 only — no traffic ever leaves the device.
+ * The server binds 127.0.0.1:18080 only — no traffic ever leaves the device.
  * Every failure is swallowed and logged: the game must boot even if the server fails.
  *
  * Boot resilience (v0.5.9, evidence: v0.5.8 redroid diagnostics): a second
@@ -25,7 +25,7 @@ import java.net.Socket;
  */
 public final class LocalServer {
 
-    public static final int PORT = 3000;
+    public static final int PORT = 18080;
     private static volatile LocalHttpd httpd;
     /** Test hook: the host rig disables the watchdog to keep tests deterministic. */
     static volatile boolean watchdogEnabled = true;
@@ -215,7 +215,12 @@ public final class LocalServer {
             L.i("boot: local api is UP on http://127.0.0.1:" + port
                     + " (users=" + store.userCount() + ")");
         } catch (Throwable t) {
-            L.e("boot" + tag + " failed: " + t);
+            if (t instanceof java.net.BindException
+                    || (t.getCause() instanceof java.net.BindException)) {
+                L.i("boot" + tag + ": port " + port + " in use (sibling process/thread serving)");
+            } else {
+                L.e("boot" + tag + " failed: " + t);
+            }
         }
     }
 
