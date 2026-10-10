@@ -1,0 +1,9 @@
+package io.rong.imageloader.core.decode;
+
+import android.graphics.Bitmap;
+import java.io.IOException;
+
+/* JADX INFO: loaded from: classes5.dex */
+public interface ImageDecoder {
+    Bitmap decode(ImageDecodingInfo imageDecodingInfo) throws IOException;
+}

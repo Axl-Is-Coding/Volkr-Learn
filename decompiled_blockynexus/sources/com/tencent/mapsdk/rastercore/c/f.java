@@ -1,0 +1,9 @@
+package com.tencent.mapsdk.rastercore.c;
+
+/* JADX INFO: loaded from: classes5.dex */
+public final class f extends a {
+    @Override // com.tencent.mapsdk.rastercore.c.a
+    public final void a(com.tencent.mapsdk.rastercore.d.f fVar) {
+        fVar.c().a(this.f19466a, this.f19468c);
+    }
+}

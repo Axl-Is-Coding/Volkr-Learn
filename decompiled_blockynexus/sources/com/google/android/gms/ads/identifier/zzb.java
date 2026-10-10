@@ -1,0 +1,52 @@
+package com.google.android.gms.ads.identifier;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+import cn.qqtheme.framework.widget.WheelView;
+import com.google.android.gms.common.GooglePlayServicesUtilLight;
+
+/* JADX INFO: loaded from: classes.dex */
+public final class zzb {
+    private SharedPreferences zzs;
+
+    public zzb(Context context) {
+        try {
+            Context remoteContext = GooglePlayServicesUtilLight.getRemoteContext(context);
+            this.zzs = remoteContext == null ? null : remoteContext.getSharedPreferences("google_ads_flags", 0);
+        } catch (Throwable th) {
+            Log.w("GmscoreFlag", "Error while getting SharedPreferences ", th);
+            this.zzs = null;
+        }
+    }
+
+    public final boolean getBoolean(String str, boolean z) {
+        try {
+            if (this.zzs == null) {
+                return false;
+            }
+            return this.zzs.getBoolean(str, false);
+        } catch (Throwable th) {
+            Log.w("GmscoreFlag", "Error while reading from SharedPreferences ", th);
+            return false;
+        }
+    }
+
+    final float getFloat(String str, float f2) {
+        try {
+            return this.zzs == null ? WheelView.DividerConfig.FILL : this.zzs.getFloat(str, WheelView.DividerConfig.FILL);
+        } catch (Throwable th) {
+            Log.w("GmscoreFlag", "Error while reading from SharedPreferences ", th);
+            return WheelView.DividerConfig.FILL;
+        }
+    }
+
+    final String getString(String str, String str2) {
+        try {
+            return this.zzs == null ? str2 : this.zzs.getString(str, str2);
+        } catch (Throwable th) {
+            Log.w("GmscoreFlag", "Error while reading from SharedPreferences ", th);
+            return str2;
+        }
+    }
+}

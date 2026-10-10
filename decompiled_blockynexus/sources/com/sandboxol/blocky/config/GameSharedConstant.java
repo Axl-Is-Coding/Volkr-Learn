@@ -1,0 +1,53 @@
+package com.sandboxol.blocky.config;
+
+/* JADX INFO: loaded from: classes.dex */
+public interface GameSharedConstant {
+    public static final String ACCOUNT = "account";
+    public static final String ACCOUNT_INFO = "account.info";
+    public static final String APP_CONFIG_SHOW_CAMPAIGN = "app.config.show.campaign";
+    public static final String APP_CONFIG_SHOW_MORE_PAY = "app.config.show.more.pay";
+    public static final String APP_CONFIG_SHOW_SHARE = "app.config.show.share";
+    public static final String APP_CONFIG_SHOW_THIRD_PART_LOGIN = "app.config.show.third.part.login";
+    public static final String APP_CONFIG_SHOW_UPDATE_SO = "app.config.show.update.so";
+    public static final String APP_FLAVOR = "app.flavor";
+    public static final String BACKUP_PRODUCT_INFO = "backup.product.info";
+    public static final String BLOCK_MAN_INCREASE_PROGRESSIVELY = "block.man.increase.progressively";
+    public static final String BLOCK_MAN_IS_CHINA = "block.man.is.china";
+    public static final String BLOCK_MAN_ORGANIZE_REGION = "block.man.organize.region";
+    public static final String BLOCK_MAN_ORGANIZE_TEAM_URL = "block.man.organize.team.url";
+    public static final String CAMPAIGN_RED_POINT_BET_UPDATE_RESULT = "campaign.red.point.bet.update.result";
+    public static final String CAMPAIGN_RED_POINT_INTEGRAL_REWARD = "campaign.red.point.integral.reward";
+    public static final String CAMPAIGN_RED_POINT_TASK_FINISHED = "campaign.red.point.task.finished";
+    public static final String CHECKED_APP_VERSION = "checked.app.version";
+    public static final String DECORATION_INFO = "decoration.info";
+    public static final String EVENT_FIRST_DAY = "event_first_day_";
+    public static final String EVENT_ONE_MONTH = "event_one_monty_";
+    public static final String EVENT_SECOND_DAY = "event_second_day_";
+    public static final String EVENT_SEVEN_DAY = "event_seven_day_";
+    public static final String FIRST_DAY_FIVE_STARS = "first.day.five.stars";
+    public static final String FIRST_ENTER_APP = "first.enter.app";
+    public static final String FIRST_SEND_MESSAGE = "first.send.message";
+    public static final String FIRST_SEND_MESSAGE_AND_RECEIVER = "first.send.message.and.receiver";
+    public static final String FIRST_TOP_UP_INFO = "first.top.up.info";
+    public static final String FIRST_UPLOAD_HAS_BLOCKY_MODS = "first.upload.has.blocky.mods";
+    public static final String GAME_DETAIL_IS_TODAY_CLICK_NO_LOGIN = "game.detail.is.today.click.no.login";
+    public static final String GAME_PING_REGION = "game.ping.region";
+    public static final String HAS_MARKET_RATE = "is.has.market.rate";
+    public static final String IS_DAILY = "is.daily";
+    public static final String IS_FIRST_DAY_USER = "is.first.day.user";
+    public static final String IS_FIRST_TOP_UP = "is.first.top.up.";
+    public static final String IS_SHOW_ADS = "is.show.ads";
+    public static final String IS_SHOW_BLOCK_MAN_DIAMOND_DIALOG = "is.show.block.man.diamond.dialog";
+    public static final String IS_SHOW_DOUBLE_GOLD_ADS_SUCCESS = "is.show.double.gold.ads.success";
+    public static final String IS_SHOW_THIRD_PART_PAY = "is.show.third.part.pay";
+    public static final String LAST_TIME_WATCH_ADS = "last.time.watch.ads";
+    public static final String MONTH_FIVE_STARS = "month.five.stars";
+    public static final String SAVE_ACCOUNT_NUM = "save.account.num";
+    public static final String SAVE_PASSWORD = "save.password";
+    public static final String SECOND_DAY_FIVE_STARS = "second.day.five.stars";
+    public static final String SHARE_SUCCESS_EMAIL = "share.success.email";
+    public static final String TEAM_INVITE_TIME_CONTROL = "team.invite.time.control";
+    public static final String TRIBE_NOTICE_CONTENT = "tribe.notice.content";
+    public static final String VISITOR_INFO = "visitor.info";
+    public static final String WEEK_FIVE_STARS = "week.five.stars";
+}

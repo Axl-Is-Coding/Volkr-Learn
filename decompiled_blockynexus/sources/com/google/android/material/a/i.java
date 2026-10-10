@@ -1,0 +1,115 @@
+package com.google.android.material.a;
+
+import android.animation.Animator;
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+
+/* JADX INFO: compiled from: MotionTiming.java */
+/* JADX INFO: loaded from: classes2.dex */
+public class i {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    private long f13096a;
+
+    /* JADX INFO: renamed from: b, reason: collision with root package name */
+    private long f13097b;
+
+    /* JADX INFO: renamed from: c, reason: collision with root package name */
+    private TimeInterpolator f13098c;
+
+    /* JADX INFO: renamed from: d, reason: collision with root package name */
+    private int f13099d;
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    private int f13100e;
+
+    public i(long j, long j2) {
+        this.f13096a = 0L;
+        this.f13097b = 300L;
+        this.f13098c = null;
+        this.f13099d = 0;
+        this.f13100e = 1;
+        this.f13096a = j;
+        this.f13097b = j2;
+    }
+
+    public void a(Animator animator) {
+        animator.setStartDelay(a());
+        animator.setDuration(b());
+        animator.setInterpolator(c());
+        if (animator instanceof ValueAnimator) {
+            ValueAnimator valueAnimator = (ValueAnimator) animator;
+            valueAnimator.setRepeatCount(d());
+            valueAnimator.setRepeatMode(e());
+        }
+    }
+
+    public long b() {
+        return this.f13097b;
+    }
+
+    public TimeInterpolator c() {
+        TimeInterpolator timeInterpolator = this.f13098c;
+        return timeInterpolator != null ? timeInterpolator : a.f13082b;
+    }
+
+    public int d() {
+        return this.f13099d;
+    }
+
+    public int e() {
+        return this.f13100e;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof i)) {
+            return false;
+        }
+        i iVar = (i) obj;
+        if (a() == iVar.a() && b() == iVar.b() && d() == iVar.d() && e() == iVar.e()) {
+            return c().getClass().equals(iVar.c().getClass());
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return (((((((((int) (a() ^ (a() >>> 32))) * 31) + ((int) (b() ^ (b() >>> 32)))) * 31) + c().getClass().hashCode()) * 31) + d()) * 31) + e();
+    }
+
+    public String toString() {
+        return '\n' + i.class.getName() + '{' + Integer.toHexString(System.identityHashCode(this)) + " delay: " + a() + " duration: " + b() + " interpolator: " + c().getClass() + " repeatCount: " + d() + " repeatMode: " + e() + "}\n";
+    }
+
+    private static TimeInterpolator b(ValueAnimator valueAnimator) {
+        TimeInterpolator interpolator = valueAnimator.getInterpolator();
+        return ((interpolator instanceof AccelerateDecelerateInterpolator) || interpolator == null) ? a.f13082b : interpolator instanceof AccelerateInterpolator ? a.f13083c : interpolator instanceof DecelerateInterpolator ? a.f13084d : interpolator;
+    }
+
+    public long a() {
+        return this.f13096a;
+    }
+
+    static i a(ValueAnimator valueAnimator) {
+        i iVar = new i(valueAnimator.getStartDelay(), valueAnimator.getDuration(), b(valueAnimator));
+        iVar.f13099d = valueAnimator.getRepeatCount();
+        iVar.f13100e = valueAnimator.getRepeatMode();
+        return iVar;
+    }
+
+    public i(long j, long j2, TimeInterpolator timeInterpolator) {
+        this.f13096a = 0L;
+        this.f13097b = 300L;
+        this.f13098c = null;
+        this.f13099d = 0;
+        this.f13100e = 1;
+        this.f13096a = j;
+        this.f13097b = j2;
+        this.f13098c = timeInterpolator;
+    }
+}

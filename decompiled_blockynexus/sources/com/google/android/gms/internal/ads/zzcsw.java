@@ -1,0 +1,20 @@
+package com.google.android.gms.internal.ads;
+
+import android.content.Context;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-ads@@19.4.0 */
+/* JADX INFO: loaded from: classes2.dex */
+public final class zzcsw implements zzeoy<zzcsp> {
+    private final zzeph<Context> zzesu;
+    private final zzeph<zzdzb> zzgly;
+
+    public zzcsw(zzeph<Context> zzephVar, zzeph<zzdzb> zzephVar2) {
+        this.zzesu = zzephVar;
+        this.zzgly = zzephVar2;
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzeph
+    public final /* synthetic */ Object get() {
+        return new zzcsp(this.zzesu.get(), this.zzgly.get());
+    }
+}

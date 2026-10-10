@@ -1,0 +1,37 @@
+package io.grpc.okhttp;
+
+import com.google.common.base.m;
+import io.grpc.okhttp.internal.ConnectionSpec;
+import io.grpc.okhttp.internal.OkHostnameVerifier;
+import io.grpc.okhttp.internal.Protocol;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+/* JADX INFO: loaded from: classes5.dex */
+final class OkHttpTlsUpgrader {
+    private static final String HTTP2_PROTOCOL_NAME = "h2";
+    private static final List<Protocol> TLS_PROTOCOLS = Collections.unmodifiableList(Arrays.asList(Protocol.HTTP_2));
+
+    OkHttpTlsUpgrader() {
+    }
+
+    public static SSLSocket upgrade(SSLSocketFactory sSLSocketFactory, Socket socket, String str, int i, ConnectionSpec connectionSpec) throws IOException {
+        m.a(sSLSocketFactory);
+        m.a(socket);
+        m.a(connectionSpec);
+        SSLSocket sSLSocket = (SSLSocket) sSLSocketFactory.createSocket(socket, str, i, true);
+        connectionSpec.apply(sSLSocket, false);
+        String strNegotiate = OkHttpProtocolNegotiator.get().negotiate(sSLSocket, str, connectionSpec.supportsTlsExtensions() ? TLS_PROTOCOLS : null);
+        m.b(HTTP2_PROTOCOL_NAME.equals(strNegotiate), "Only \"h2\" is supported, but negotiated protocol is %s", strNegotiate);
+        if (OkHostnameVerifier.INSTANCE.verify(str, sSLSocket.getSession())) {
+            return sSLSocket;
+        }
+        throw new SSLPeerUnverifiedException("Cannot verify hostname: " + str);
+    }
+}

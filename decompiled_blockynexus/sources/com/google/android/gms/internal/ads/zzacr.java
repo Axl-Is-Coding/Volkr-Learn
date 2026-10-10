@@ -1,0 +1,8 @@
+package com.google.android.gms.internal.ads;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-ads-lite@@19.4.0 */
+/* JADX INFO: loaded from: classes2.dex */
+public final class zzacr {
+    public static zzaci<Boolean> zzdaw = zzaci.zzg("gads:debug_logging_feature:enable", false);
+    public static zzaci<Boolean> zzdax = zzaci.zzg("gads:debug_logging_feature:intercept_web_view", false);
+}

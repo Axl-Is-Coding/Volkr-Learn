@@ -1,0 +1,66 @@
+package com.sandboxol.center.router.moduleInfo.game;
+
+import com.sandboxol.center.router.module_application.BaseModuleApp;
+
+/* JADX INFO: loaded from: classes3.dex */
+public interface GameBroadcastType {
+    public static final String BROADCAST_ENTER_GAME_CHECK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".enter.game.check";
+    public static final String BROADCAST_AGREE_ADD_FRIEND = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".agree.add.friend";
+    public static final String BROADCAST_REQUEST_ADD_FRIEND = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".request.add.friend";
+    public static final String BROADCAST_ENTER_GAME_CHECK_BACK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".enter.game.check.back";
+    public static final String BROADCAST_AGREE_ADD_FRIEND_BACK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".agree.add.friend.back";
+    public static final String BROADCAST_AGREE_ADD_FRIEND_ERROR_BACK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".agree.add.friend.error.back";
+    public static final String BROADCAST_REQUEST_ADD_FRIEND_BACK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".request.add.friend.back";
+    public static final String BROADCAST_REQUEST_ADD_FRIEND_ERROR_BACK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".request.add.friend.error.back";
+    public static final String BROADCAST_SHOW_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.ads";
+    public static final String BROADCAST_HIDE_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".hide.ads";
+    public static final String BROADCAST_IS_SHOW_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".is.show.ads";
+    public static final String BROADCAST_GAME_PING = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.ping";
+    public static final String BROADCAST_GAME_RAKNET_PING = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.raknet.ping";
+    public static final String BROADCAST_GAME_FPS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.raknet.fps";
+    public static final String ENTER_RECHARGE_PAGE_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".enter.recharge.page.game";
+    public static final String TOP_UP_DIAMONDS_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".top.up.diamonds.game";
+    public static final String TOP_UP_GOOGLE_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".top.up.google.game";
+    public static final String BROADCAST_PARTY_EXIT_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".party.exit.game";
+    public static final String BROADCAST_SHOW_INVITE_MESSAGE = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.invite.message";
+    public static final String BROADCAST_SHOW_INVITE_MESSAGE_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.invite.message.game";
+    public static final String BROADCAST_SHOW_INVITE_MESSAGE_NEXT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.invite.message.next";
+    public static final String BROADCAST_DRESS_SHOP_SHOW_AD = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".dress.shop.show.ad";
+    public static final String BROADCAST_DRESS_SHOP_SHOW_AD_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".dress.shop.show.ad.success";
+    public static final String BROADCAST_GAME_SHOW_AD_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.show.ad.success";
+    public static final String BROADCAST_GAME_SHOW_AD_BUTTON = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.show.ad.button";
+    public static final String BROADCAST_RRESH_MONEY = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".fresh.money";
+    public static final String BROADCAST_ENTER_GAME_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".enter.game.success";
+    public static final String BROADCAST_BUY_ACTION_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".buy.action.success";
+    public static final String BROADCAST_GAME_SHOW_HIPPO_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".game.show.hippo.ads";
+    public static final String BROADCAST_CLOSE_GAME = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".close.game";
+    public static final String BROADCAST_VIEW_IRON_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".view.iron.ads";
+    public static final String BROADCAST_VIEW_IRON_ADS_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".view.iron.ads.success";
+    public static final String BROADCAST_SHARE_GOOGLE = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".broadcast.share.google";
+    public static final String BROADCAST_SHARE_FACEBOOK = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".broadcast.share.facebook";
+    public static final String BROADCAST_SHARE_TWITTER = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".broadcast.share.twitter";
+    public static final String BROADCAST_DISMISS_SCREENSHOTSHAREDIALOG = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".BROADCAST.DISMISS.SCREENSHOTSHAREDIALOG";
+    public static final String BROADCAST_VIEW_ENGINE1_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".view.engine1.ads";
+    public static final String BROADCAST_SHOW_ENGINE1_ADS_RESULT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "show.engine1.ads.result";
+    public static final String BROADCAST_VIEW_ENGINE2_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".view.engine2.ads";
+    public static final String BROADCAST_SHOW_ENGINE2_ADS_RESULT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.engine2.ads.success";
+    public static final String BROADCAST_SHOW_RED_POINT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.red.point";
+    public static final String GAME_SHOW_FRIEND_RED_POINT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "game.show.friend.red.point";
+    public static final String GAME_SHOW_EMAIL_RED_POINT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "game.show.email.red.point";
+    public static final String BROADCAST_START_GAME_CHANGE_ACCOUNT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".start.game.change.account";
+    public static final String BROADCAST_CLOSE_APP = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".close.app";
+    public static final String BROADCAST_SHOW_ADS_TURNTABLE_VISIBLE = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.ads.turntable.visible";
+    public static final String BROADCAST_DRESS_REFRESH_LIST = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".dress.refresh.list";
+    public static final String BROADCAST_SHOW_HERO_TYCOON_ADS_RESULT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "show.hero.tycoon.ads.result";
+    public static final String BROADCAST_SHOW_HERO_TYCOON_ADS_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "show.hero.tycoon.ads.success";
+    public static final String BROADCAST_SHOW_APP_PAGE = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.app.page";
+    public static final String BROADCAST_FRESH_MONEY = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".fresh.money";
+    public static final String BROADCAST_SHOW_DIAMOND_ADS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.diamond.ads";
+    public static final String BROADCAST_SHOW_DIAMOND_ADS_RESULT = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.diamond.ads.result";
+    public static final String BROADCAST_SHOW_IN_GAME_TURNTABLE_SUCCESS = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.in.game.turntable.success";
+    public static final String BROADCAST_IS_SHOW_ADS_TIMER = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".is.show.ads.timer";
+    public static final String BROADCAST_HIDE_LOADING_DIALOG = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "hide.loading.dialog";
+    public static final String BROADCAST_INIT_DIAMOND_ADS_TIMES = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + "init.diamond.ads.times";
+    public static final String BROADCAST_SHOW_BED_WAR_UI = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.bed.war.ui";
+    public static final String BROADCAST_SHOW_SCRAP_ANIM = BaseModuleApp.getBaseModuleApp().getMetaDataBroadcastType() + ".show.scrap.anim";
+}

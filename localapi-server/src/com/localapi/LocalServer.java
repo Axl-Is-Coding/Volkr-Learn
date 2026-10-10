@@ -8,7 +8,7 @@ import java.net.Socket;
 /**
  * Entry point for the embedded loopback API server.
  * Called once from App.onCreate (smali hook) before any activity can fire a request.
- * The server binds 127.0.0.1:18080 only — no traffic ever leaves the device.
+ * The server binds 127.0.0.1:3000 only — no traffic ever leaves the device.
  * Every failure is swallowed and logged: the game must boot even if the server fails.
  *
  * Boot resilience (v0.5.9, evidence: v0.5.8 redroid diagnostics): a second
@@ -25,7 +25,7 @@ import java.net.Socket;
  */
 public final class LocalServer {
 
-    public static final int PORT = 18080;
+    public static final int PORT = 3000;
     private static volatile LocalHttpd httpd;
     /** Test hook: the host rig disables the watchdog to keep tests deterministic. */
     static volatile boolean watchdogEnabled = true;
@@ -39,6 +39,13 @@ public final class LocalServer {
     public static void startIfNeeded(Context context) {
         Context app = context.getApplicationContext();
         File filesDir = app.getFilesDir();
+        File externalFilesDir = app.getExternalFilesDir(null);
+        L.configure(externalFilesDir != null ? externalFilesDir : filesDir);
+        L.i("diagnostics: device=" + android.os.Build.MANUFACTURER + " "
+                + android.os.Build.MODEL + " sdk=" + android.os.Build.VERSION.SDK_INT
+                + " filesDir=" + filesDir.getAbsolutePath()
+                + " externalFilesDir=" + (externalFilesDir == null ? "null"
+                        : externalFilesDir.getAbsolutePath()));
         // Seed assets ship inside the APK (tiny data, NOT the streamed icon
         // bytes): the real skin catalog capture + the client's own game
         // ScriptSetting. They are copied into the files dir once so the

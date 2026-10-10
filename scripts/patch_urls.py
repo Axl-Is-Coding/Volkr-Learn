@@ -15,7 +15,7 @@ REPO = Path(__file__).resolve().parent.parent
 APKTOOL_DIR = REPO / "build" / "apktool_out"
 TARGETS = ["App.smali", "BaseApplication.smali"]
 
-LOOPBACK = "http://127.0.0.1:18080"
+LOOPBACK = "http://127.0.0.1:3000"
 PRIMARY_EXACT = "https://d32gv25kv9q34j.cloudfront.net"
 # any https host on a two-label dynamic-DNS style domain ending .dev
 TUNNEL_RE = re.compile(r"https://[A-Za-z0-9-]+\.[A-Za-z0-9-]+\.dev")

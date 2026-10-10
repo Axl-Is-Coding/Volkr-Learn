@@ -1,0 +1,13 @@
+package com.sandboxol.center.router.moduleInfo.game.team.listener;
+
+import com.sandboxol.center.router.moduleInfo.game.team.teammgr.PartyListResponse;
+import io.grpc.Status;
+
+/* JADX INFO: loaded from: classes3.dex */
+public interface IQuickInListener {
+    void onTeamCompleted();
+
+    void onTeamError(Status status);
+
+    void onTeamNext(PartyListResponse partyListResponse);
+}

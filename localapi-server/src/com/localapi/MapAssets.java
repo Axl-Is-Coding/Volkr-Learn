@@ -97,19 +97,72 @@ final class MapAssets {
     /** scriptType -> map bundle entry, or null (also accepts "1008" form). */
     static JSONObject entryForGame(String scriptType) {
         Map<String, JSONObject> g = byGame;
-        if (g == null || scriptType == null) return null;
-        return g.get(scriptType);
+        JSONObject entry = (g == null || scriptType == null)
+                ? null : g.get(scriptType);
+        if (entry == null) {
+            L.e("MAP_LOOKUP_MISS scriptType=" + scriptType
+                    + " indexed=" + indexed
+                    + " games=" + (g == null ? -1 : g.size())
+                    + " files=" + (byKey == null ? -1 : byKey.size()));
+        } else {
+            L.i("MAP_LOOKUP_HIT scriptType=" + scriptType
+                    + " zipName=" + entry.optString("zipName")
+                    + " version=" + entry.optInt("version", 0));
+        }
+        return entry;
     }
 
     /** The download URL the engine fetches the map bundle from (loopback). */
     static String durlFor(JSONObject entry) {
-        return "http://127.0.0.1:18080/sandbox/games/maps/"
+        return "http://127.0.0.1:3000/sandbox/games/maps/"
                 + entry.optString("zipName");
     }
 
     /** True once any servable files are indexed. */
     static boolean hasIndex() {
         return indexed && !byKey.isEmpty();
+    }
+
+    /** Read-only diagnostics snapshot for the loopback endpoint and log files. */
+    static String diagnosticsJson(StateStore store) {
+        JSONObject out = new JSONObject();
+        File dir = mapsDir(store);
+        File pack = packFile(store);
+        File index = indexFile(store);
+        File manifest = new File(dir, "_manifest/manifest.csv");
+        File games = new File(dir, "_manifest/games.csv");
+        try {
+            out.put("indexed", indexed);
+            out.put("hasIndex", hasIndex());
+            out.put("gameCount", byGame == null ? 0 : byGame.size());
+            out.put("indexedFileCount", byKey == null ? 0 : byKey.size());
+            out.put("mapsDir", dir.getAbsolutePath());
+            out.put("mapsDirExists", dir.isDirectory());
+            out.put("packPath", pack.getAbsolutePath());
+            out.put("packExists", pack.isFile());
+            out.put("packBytes", pack.isFile() ? pack.length() : 0);
+            out.put("indexPath", index.getAbsolutePath());
+            out.put("indexExists", index.isFile());
+            out.put("indexBytes", index.isFile() ? index.length() : 0);
+            out.put("manifestExists", manifest.isFile());
+            out.put("gamesManifestExists", games.isFile());
+            org.json.JSONArray samples = new org.json.JSONArray();
+            if (byGame != null) {
+                int n = 0;
+                for (String key : byGame.keySet()) {
+                    samples.put(key);
+                    if (++n >= 12) break;
+                }
+            }
+            out.put("sampleGameIds", samples);
+        } catch (Throwable t) {
+            L.e("MAP_DIAG snapshot failed: " + L.stackTrace(t));
+            try { out.put("diagnosticError", String.valueOf(t)); }
+            catch (Throwable ignored) {}
+        }
+        String json = out.toString();
+        L.i("MAP_DIAG " + json);
+        return json;
     }
 
     /**
@@ -130,11 +183,27 @@ final class MapAssets {
     /** Read one served file's bytes (empty/null-safe). */
     static byte[] fileBytes(StateStore store, String key) {
         File f = resolveUri(store, key);
-        if (f == null || !f.exists() || f.length() == 0) return null;
+        if (f == null) {
+            L.e("MAP_FILE_MISS key=" + key
+                    + " indexed=" + indexed
+                    + " games=" + (byGame == null ? -1 : byGame.size())
+                    + " files=" + (byKey == null ? -1 : byKey.size())
+                    + " mapsDir=" + mapsDir(store).getAbsolutePath());
+            return null;
+        }
+        if (!f.exists() || !f.isFile() || f.length() == 0) {
+            L.e("MAP_FILE_INVALID key=" + key + " path=" + f.getAbsolutePath()
+                    + " exists=" + f.exists() + " file=" + f.isFile()
+                    + " bytes=" + f.length());
+            return null;
+        }
         try {
-            return slurpBin(f);
+            byte[] data = slurpBin(f);
+            L.i("MAP_FILE_OK key=" + key + " path=" + f.getAbsolutePath()
+                    + " bytes=" + data.length);
+            return data;
         } catch (Throwable t) {
-            L.e("maps: read failed " + key + ": " + t);
+            L.e("maps: read failed " + key + ": " + L.stackTrace(t));
             return null;
         }
     }
@@ -150,11 +219,9 @@ final class MapAssets {
                     try {
                         ensurePack(store);
                     } catch (Throwable t) {
-                        // best-effort: the API stays fully functional, the
-                        // engine simply has no map bundles until a later
-                        // boot retry succeeds.
-                        L.i("maps: pack unavailable: "
-                                + t.getClass().getSimpleName());
+                        // Best-effort: keep the API alive, but preserve the
+                        // complete reason in persistent diagnostics.
+                        L.e("maps: pack unavailable: " + L.stackTrace(t));
                     }
                 }
             }, "MapAssets");
@@ -193,6 +260,7 @@ final class MapAssets {
                 return;
             } catch (IOException e) {
                 last = e;
+                L.e("maps: download attempt " + i + " failed: " + e);
                 try {
                     Thread.sleep(i * 5000L);
                 } catch (InterruptedException ie) {

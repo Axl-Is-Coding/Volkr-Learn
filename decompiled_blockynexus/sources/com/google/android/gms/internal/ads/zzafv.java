@@ -1,0 +1,20 @@
+package com.google.android.gms.internal.ads;
+
+import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
+
+/* JADX INFO: compiled from: com.google.android.gms:play-services-ads-lite@@19.4.0 */
+/* JADX INFO: loaded from: classes2.dex */
+public final class zzafv extends zzgu implements zzaft {
+    zzafv(IBinder iBinder) {
+        super(iBinder, "com.google.android.gms.ads.internal.formats.client.IOnUnifiedNativeAdLoadedListener");
+    }
+
+    @Override // com.google.android.gms.internal.ads.zzaft
+    public final void zza(zzage zzageVar) throws RemoteException {
+        Parcel parcelObtainAndWriteInterfaceToken = obtainAndWriteInterfaceToken();
+        zzgw.zza(parcelObtainAndWriteInterfaceToken, zzageVar);
+        zza(1, parcelObtainAndWriteInterfaceToken);
+    }
+}

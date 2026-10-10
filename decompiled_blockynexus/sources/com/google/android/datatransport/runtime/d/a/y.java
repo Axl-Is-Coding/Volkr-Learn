@@ -1,0 +1,24 @@
+package com.google.android.datatransport.runtime.d.a;
+
+import android.database.Cursor;
+import com.google.android.datatransport.runtime.d.a.D;
+
+/* JADX INFO: compiled from: SQLiteEventStore.java */
+/* JADX INFO: loaded from: classes.dex */
+final /* synthetic */ class y implements D.a {
+
+    /* JADX INFO: renamed from: a, reason: collision with root package name */
+    private static final y f12915a = new y();
+
+    private y() {
+    }
+
+    public static D.a a() {
+        return f12915a;
+    }
+
+    @Override // com.google.android.datatransport.runtime.d.a.D.a
+    public Object apply(Object obj) {
+        return D.b((Cursor) obj);
+    }
+}

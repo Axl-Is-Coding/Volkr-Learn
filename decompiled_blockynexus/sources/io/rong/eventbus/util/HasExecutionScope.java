@@ -1,0 +1,8 @@
+package io.rong.eventbus.util;
+
+/* JADX INFO: loaded from: classes5.dex */
+public interface HasExecutionScope {
+    Object getExecutionScope();
+
+    void setExecutionScope(Object obj);
+}

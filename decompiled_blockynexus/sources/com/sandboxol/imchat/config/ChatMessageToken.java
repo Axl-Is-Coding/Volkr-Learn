@@ -1,0 +1,50 @@
+package com.sandboxol.imchat.config;
+
+/* JADX INFO: loaded from: classes4.dex */
+public interface ChatMessageToken {
+    public static final String EXIT_PARTY = "exit.party";
+    public static final String IS_PARTY_CAPTAIN = "is.party.captain";
+    public static final String START_PARTY_FRIEND_INFO_DIALOG = "start.party.friend.info.dialog";
+    public static final String START_PARTY_GAME = "start.party.game";
+    public static final String TOKEN_ADD_OUTSIDE_NUM = "token.add.outside.num";
+    public static final String TOKEN_CAMPAIGN_RED_POINT = "token.campaign.red.point";
+    public static final String TOKEN_CHAT_CLICK_TO_ENTER_GAME = "token.chat.click.to.enter.game";
+    public static final String TOKEN_CHAT_CLICK_TO_ENTER_ROOM = "token.chat.click.to.enter.room";
+    public static final String TOKEN_CHAT_CREATE_GROUP_TIME = "token.chat.create.group.time";
+    public static final String TOKEN_CHAT_NEW_FRIEND = "token.chat.new.friend";
+    public static final String TOKEN_CHAT_NEW_FRIEND_LIST = "token.chat.new.friend.list";
+    public static final String TOKEN_CHAT_NEW_FRIEND_REMOVE = "token.chat.new.friend.remove";
+    public static final String TOKEN_CHAT_ROOM_SHOW = "token.chat.room.show";
+    public static final String TOKEN_CHAT_UPLOAD_ENTER_TEAM_WRONG = "token.chat.upload.enter.team.wrong";
+    public static final String TOKEN_CLICK_START_SHOW_LOADING_DIALOG = "token.click.start.show.loading.dialog";
+    public static final String TOKEN_CLOSE_PARTY_DIALOG = "token.close.party.dialog";
+    public static final String TOKEN_CONNECT_CHAT = "token.connect.chat";
+    public static final String TOKEN_GET_GROUP_INVITE_APPLY_MESSAGE = "token.get.group.invite.apply.message";
+    public static final String TOKEN_LAST_MEMBER_EXIT_CHAT_ROOM = "token.last.member.exit.chat.room";
+    public static final String TOKEN_PARTY_INVITE_FRIEND = "token.party.invite.friend";
+    public static final String TOKEN_PARTY_ROOM_CLOSE = "token.party.room.close";
+    public static final String TOKEN_PARTY_SHRINK_EDIT_TEXT = "token.party.shrink.edit.text";
+    public static final String TOKEN_REFRESH_CONVERSATION_STATE = "token.refresh.conversation.state";
+    public static final String TOKEN_REFRESH_FRIEND_LIST = "token.refresh.friend.list";
+    public static final String TOKEN_REFRESH_GROUP_INFO = "token.refresh.group.info";
+    public static final String TOKEN_REFRESH_GROUP_LIST = "token.refresh.group.list";
+    public static final String TOKEN_REFRESH_GROUP_NAME = "token.refresh.group.name";
+    public static final String TOKEN_REFRESH_GROUP_NUM = "token.refresh.group.num";
+    public static final String TOKEN_REFRESH_GROUP_PIC = "token.refresh.group.pic";
+    public static final String TOKEN_RESET_NEW_NUM = "token.reset.new.num";
+    public static final String TOKEN_SEND_GROUP_CARD = "token_send_group.card";
+    public static final String TOKEN_SHOW_GROUP_NOTICE_DIALOG = "token.show.group.notice.dialog";
+    public static final String TOKEN_START_GROUP_INFO = "token.start.group.info";
+    public static final String TOKEN_TEAM_ADD_MEMBER = "token.team.add.member";
+    public static final String TOKEN_TEAM_CLICK_HEAD = "token.team.click.head";
+    public static final String TOKEN_TEAM_INSERT_MEMBER = "token.team.insert.member";
+    public static final String TOKEN_TEAM_MEMBER_NUM_UPDATE = "token.team.member.num.update";
+    public static final String TOKEN_TEAM_MODIFY_MEMBER_POSITION = "token.team.modify.member.position";
+    public static final String TOKEN_TEAM_REFRESH_MEMBER = "token.team.refresh.member";
+    public static final String TOKEN_TEAM_REMOVE_MEMBER = "token.team.remove.member";
+    public static final String TOKEN_TEAM_START_GAME_EXIT_CHAT = "token.team.start.game.exit.chat";
+    public static final String TOKEN_TRIBE_EXIT_OR_KICK = "token.tribe.exit.or.kick";
+    public static final String TOKEN_TRIBE_JOIN_OR_EXIT = "token.tribe.join.or.exit";
+    public static final String TOKEN_TRIBE_REQUEST_JOIN = "token.tribe.request.join";
+    public static final String TOKEN_UPDATE_GAME_MASSAGE = "token.update.game.massage";
+}

@@ -14,7 +14,7 @@ final class Handlers {
     private static final String FAIL = "failed";
 
     /** This server's loopback base URL — the dispUrl/gaddr bridge target. */
-    static final String LOCAL_BASE_URL = "http://127.0.0.1:18080";
+    static final String LOCAL_BASE_URL = "http://127.0.0.1:3000";
 
     private Handlers() {}
 
@@ -1039,7 +1039,7 @@ final class Handlers {
         // Without a running server, the legacy loopback keeps the map-download
         // phase behavior unchanged.
         String gameAddr = GameServerManager.gameAddr();
-        out.put("gaddr", gameAddr != null ? gameAddr : "127.0.0.1:18080");
+        out.put("gaddr", gameAddr != null ? gameAddr : "127.0.0.1:3000");
         out.put("dispUrl", LOCAL_BASE_URL);
         out.put("croomid", croomId);
         out.put("gameType", engineType);
@@ -1056,7 +1056,12 @@ final class Handlers {
         // in the client's Gson form (gaddr/croomid/mid/mname/downurl).
         JSONObject mapEntry = engineType.matches("g[0-9]+")
                 ? MapAssets.entryForGame(engineType) : null;
-        out.put("downurl", mapEntry == null ? "" : MapAssets.durlFor(mapEntry));
+        String downurl = mapEntry == null ? "" : MapAssets.durlFor(mapEntry);
+        out.put("downurl", downurl);
+        L.i("MAP_DISPATCH gameType=" + gameType + " engineType=" + engineType
+                + " mapEntry=" + (mapEntry != null)
+                + " downurlPresent=" + !downurl.isEmpty()
+                + " downurl=" + downurl);
         out.put("name", name);
         out.put("region", mt.optInt("region"));
         out.put("resVersion", mapEntry != null
@@ -1090,6 +1095,8 @@ final class Handlers {
         String rv = ctx.query("resVersion");
         String gameType = ctx.query("gameType");
         long clientV = rv == null || rv.isEmpty() ? 0 : parseLong(rv, 0);
+        L.i("MAP_GAME_RES request rawGameType=" + gameType
+                + " resVersion=" + clientV + " index=" + MapAssets.hasIndex());
         JSONObject out = new JSONObject();
         JSONArray cdns = new JSONArray();
         JSONObject local = new JSONObject();
@@ -1118,6 +1125,10 @@ final class Handlers {
         } else {
             out.put("durl", "");
             out.put("resVersion", (int) Math.max(1, clientV));
+            L.e("MAP_GAME_RES_NO_ENTRY rawGameType=" + gameType
+                    + " normalizedScript=" + script
+                    + " index=" + MapAssets.hasIndex()
+                    + " response=durl-empty");
         }
         return envelope("obj", out.toString());
     }
@@ -1684,7 +1695,7 @@ final class Handlers {
         JSONObject out = new JSONObject();
         out.put("dispUrl", LOCAL_BASE_URL);
         // host:port — the client split(":") partyService for the gRPC client
-        out.put("partyService", "127.0.0.1:18080");
+        out.put("partyService", "127.0.0.1:3000");
         out.put("partyQuerierService", LOCAL_BASE_URL);
         out.put("region", 0);
         out.put("country", "");

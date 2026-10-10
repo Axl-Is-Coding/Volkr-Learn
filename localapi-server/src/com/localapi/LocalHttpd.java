@@ -50,6 +50,10 @@ public class LocalHttpd extends NanoHTTPD {
         // LocalServer.probeServing() liveness probe — answer silently (no REQ/
         // RES/UNMAPPED log noise in the diagnostics, the probe runs every few
         // seconds from every non-holder app process).
+        if ("GET".equals(verb) && "/localapi/diagnostics/maps".equals(uri)) {
+            L.i("MAP_DIAG endpoint requested");
+            return respond(MapAssets.diagnosticsJson(store));
+        }
         if (uri != null && uri.endsWith("/health")) {
             return respond("{\"code\":1,\"data\":\"ok\"}");
         }
@@ -161,11 +165,13 @@ public class LocalHttpd extends NanoHTTPD {
      * leading slash; dress-resource requests resolve to the decorate pack.
      */
     private Response serveAsset(String uri) {
+        L.i("ASSET REQ GET " + uri);
         byte[] data = uri.startsWith("/sandbox/dresses/dress-resources/")
                 ? DressRes.packBytes(store)
                 : MapAssets.fileBytes(store, uri.substring(1));
         if (data == null) {
-            L.i("ASSET miss " + uri);
+            L.e("ASSET MISS " + uri
+                    + " -> legacy HTTP 200 JSON miss envelope; inspect maps diagnostics");
             return respond("{\"code\":0,\"message\":\"asset not available\"}");
         }
         String lower = uri.toLowerCase(java.util.Locale.US);
@@ -186,7 +192,7 @@ public class LocalHttpd extends NanoHTTPD {
         Response r = newFixedLengthResponse(Response.Status.OK, mime, in, data.length);
         r.addHeader("Access-Control-Allow-Origin", "*");
         r.addHeader("Cache-Control", "max-age=86400");
-        L.i("ASSET " + uri + " " + data.length + "b " + mime);
+        L.i("ASSET OK " + uri + " bytes=" + data.length + " mime=" + mime);
         return r;
     }
 

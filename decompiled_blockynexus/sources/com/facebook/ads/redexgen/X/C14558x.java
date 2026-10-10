@@ -1,0 +1,27 @@
+package com.facebook.ads.redexgen.X;
+
+import java.util.UUID;
+
+/* JADX WARN: Classes with same name are omitted, all sources:
+  assets.dex
+  assets/audience_network.dex
+ */
+/* JADX INFO: renamed from: com.facebook.ads.redexgen.X.8x, reason: invalid class name and case insensitive filesystem */
+/* JADX INFO: loaded from: assets/audience_network.dex */
+public final class C14558x {
+    public final double A01 = System.currentTimeMillis() / 1000.0d;
+    public final String A02 = UUID.randomUUID().toString();
+    public final double A00 = Math.random();
+
+    public final double A00() {
+        return this.A00;
+    }
+
+    public final double A01() {
+        return this.A01;
+    }
+
+    public final String A02() {
+        return this.A02;
+    }
+}

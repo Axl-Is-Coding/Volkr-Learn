@@ -1,0 +1,17 @@
+package io.rong.imkit.model;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/* JADX INFO: loaded from: classes.dex */
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ConversationProviderTag {
+    boolean centerInHorizontal() default false;
+
+    String conversationType() default "private";
+
+    int portraitPosition() default 1;
+}

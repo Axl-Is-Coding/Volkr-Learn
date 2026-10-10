@@ -1,0 +1,48 @@
+package com.alibaba.mtl.appmonitor.a;
+
+import com.facebook.places.model.PlaceFields;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/* JADX INFO: compiled from: Event.java */
+/* JADX INFO: loaded from: classes.dex */
+public abstract class d implements com.alibaba.mtl.appmonitor.c.b {
+
+    /* JADX INFO: renamed from: e, reason: collision with root package name */
+    public int f3560e;
+    public String o;
+    public String p;
+    public String s;
+
+    public JSONObject a() {
+        JSONObject jSONObject = (JSONObject) com.alibaba.mtl.appmonitor.c.a.a().a(com.alibaba.mtl.appmonitor.c.e.class, new Object[0]);
+        try {
+            jSONObject.put(PlaceFields.PAGE, this.o);
+            jSONObject.put("monitorPoint", this.p);
+            if (this.s != null) {
+                jSONObject.put("arg", this.s);
+            }
+        } catch (JSONException unused) {
+        }
+        return jSONObject;
+    }
+
+    @Override // com.alibaba.mtl.appmonitor.c.b
+    public void clean() {
+        this.f3560e = 0;
+        this.o = null;
+        this.p = null;
+        this.s = null;
+    }
+
+    @Override // com.alibaba.mtl.appmonitor.c.b
+    public void fill(Object... objArr) {
+        this.f3560e = ((Integer) objArr[0]).intValue();
+        this.o = (String) objArr[1];
+        this.p = (String) objArr[2];
+        if (objArr.length <= 3 || objArr[3] == null) {
+            return;
+        }
+        this.s = (String) objArr[3];
+    }
+}
