@@ -3659,6 +3659,18 @@ def main():
               gr_fx2.get("code") == 1
               and (gr_fx2.get("data", {}) or {}).get("durl") == exp_durl,
               str(gr_fx2)[:220])
+        gr_fx_bw = call("GET", "/v1/game-res?gameType=g1046&engineVersion=90900"
+                        "&resVersion=1", base=base_fx)
+        check("maps: game-res g1046 Bedwars hall resolves to g1008 map bundle",
+              gr_fx_bw.get("code") == 1
+              and (gr_fx_bw.get("data", {}) or {}).get("durl") == exp_durl,
+              str(gr_fx_bw)[:220])
+        gr_fx_bw2 = call("GET", "/v1/game-res?gameType=1046&engineVersion=90900"
+                         "&resVersion=1", base=base_fx)
+        check("maps: game-res numeric 1046 Bedwars resolves to g1008 map bundle",
+              gr_fx_bw2.get("code") == 1
+              and (gr_fx_bw2.get("data", {}) or {}).get("durl") == exp_durl,
+              str(gr_fx_bw2)[:220])
 
         reg_fx = call("POST", "/user/api/v1/visitor", {"imei": "mapfx"},
                       base=base_fx)

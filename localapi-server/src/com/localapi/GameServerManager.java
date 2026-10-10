@@ -99,15 +99,11 @@ public final class GameServerManager {
                 if (findBinary(context) == null) {
                     File dl = download(serverUrl(), "libgameserver.so",
                             80 * 1024 * 1024);
-                    File dst = new File(sBundleDir, "libgameserver.so");
-                    if (!dl.renameTo(dst)) {
-                        copy(dl, dst);
-                    }
                     // filesDir exec: allowed for legacy targetSdk apps only;
                     // chmod +x for good measure.
                     try {
                         Runtime.getRuntime().exec(
-                                new String[]{"chmod", "755", dst.getAbsolutePath()})
+                                new String[]{"chmod", "755", dl.getAbsolutePath()})
                                 .waitFor();
                     } catch (Throwable ignored) {}
                 }
@@ -307,7 +303,14 @@ public final class GameServerManager {
         }
         out.close();
         in.close();
-        if (!tmp.renameTo(dst)) copy(tmp, dst);
+        if (tmp.exists()) {
+            if (!tmp.renameTo(dst)) {
+                if (tmp.exists()) {
+                    copy(tmp, dst);
+                    tmp.delete();
+                }
+            }
+        }
         L.i("gs: downloaded " + dst.getName() + " (" + dst.length() + " bytes)");
         return dst;
     }
